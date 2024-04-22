@@ -56,36 +56,39 @@ POST /connections
 The following request creates a base connection for [!DNL PathFactory]:
 
 ```shell
-curl -X POST \
-  'https://platform.adobe.io/data/foundation/flowservice/connections' \
-  -H 'Authorization: Bearer {ACCESS_TOKEN}' \
-  -H 'x-api-key: {API_KEY}' \
-  -H 'x-gw-ims-org-id: {ORG_ID}' \
-  -H 'x-sandbox-name: {SANDBOX_NAME}' \
-  -H 'Content-Type: application/json' \
-  -d '{
-      "name": "PathFactory base connection",
-      "description": "PathFactory base connection",
+curl --location 'https://platform.adobe.io/data/foundation/flowservice/connections' \
+--header 'Authorization: Bearer {{authorizationToken}}' \
+--header 'Content-Type: application/json' \
+--header 'x-api-key: {{API_KEY}}' \
+--header 'x-gw-ims-org-id: {{ORG_ID}}' \
+--header 'x-sandbox-name: {{SANDBOX_NAME}}' \
+--data '{
+      "name": "Basic Authentication",
+      "description": "Basic Authentication",
+      "connectionSpec": {
+          "id": "20d50f2a-1ffa-40f8-a43d-87c1516dbdc5",
+          "version": "1.0"
+      },
       "auth": {
           "specName": "Basic Authentication",
           "params": {
-              "host": "acme-ab12c3d4e5fg6hijk7lmnop8qrst"
-              "clientId": "pathfactory",
-              "clientSecret": "xxxx"
+              "domain": "{subDomainID}",
+              "username": "{USERNAME}",
+              "password": "{PASSWORD}"
           }
-      },
-      "connectionSpec": {
-          "id": "ea1c2a08-b722-11eb-8529-0242ac130003",
-          "version": "1.0"
       }
   }'
 ```
 
-| Property | Description |
-| -------- | ----------- |
-| `auth.params.clientId` | The client ID associated with your [!DNL PathFactory] application. |
-| `auth.params.clientSecret` | The client secret associated with your [!DNL PathFactory] application. |
-| `connectionSpec.id` | The [!DNL PathFactory] connection specification ID: `ea1c2a08-b722-11eb-8529-0242ac130003`. |
+| Property               | Description |
+|------------------------| --- |
+| `name`                 | The name of your base connection. Ensure that the name of your base connection is descriptive as you can use this to look up information on your base connection. |
+| `description`          | (Optional) A property that you can include to provide more information on your base connection. |
+| `connectionSpec.id`    | The connection specification ID of your source. This ID can be retrieved after your source is registered and approved through the [!DNL Flow Service] API. |
+| `auth.specName`        | The authentication type that you are using to connect your source to Platform. |
+| `auth.params.domain`     | (Optional) The subDomain name/id for your organization is used to validate credentials when creating a base connection. If unprovided, credentials are automatically checked during the source connection creation step instead. |
+| `auth.params.username` | The username that corresponds with your [!DNL Pathfactory] account. This is required for basic authentication. |
+| `auth.params.password` | The password that corresponds with your [!DNL Pathfactory] account. This is required for basic authentication. |
 
 **Response**
 
